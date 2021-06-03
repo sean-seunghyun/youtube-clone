@@ -14,3 +14,9 @@ export const join = (req, res) => {
 export const login = (req, res) => {
     res.send("logIn user");
 }
+export const logout = (req, res) => {
+    res.send("logout user");
+}
+export const see = (req, res) => {
+    res.send("see user");
+}
