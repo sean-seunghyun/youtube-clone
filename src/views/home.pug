@@ -1,6 +1,15 @@
 extends base.pug
+include ./mixins/video
 
+block nav
+    if user.loggedIn
+        h4 welcome #{user.name}!
+    else
+        a(href='/login') click here to log In
 
+block header
+    h1 There are tons of videos to watch!
 
-block content
-    h1 This is home page!
+block list
+    each video in videos
+        +video(video)
