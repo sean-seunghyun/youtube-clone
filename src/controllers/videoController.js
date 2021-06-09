@@ -3,38 +3,45 @@ const user = {
     loggedIn: false
 }
 
-
-export const trending = (req, res) => {
-    const videos = [
-        {
-        title: "#1",
+const videos = [
+    {
+        title: "Magical power",
         author: "sean",
         comments: 3,
-        createdAt: "20210608",
+        createdAt: "2021.06.28",
         view: 55,
-        star: 3
-        },
-        {
-        title: "check out #2",
+        star: 3,
+        id: 1
+    },
+    {
+        title: "Yerin Baek songs",
         author: "John",
         comments: 3,
-        createdAt: "20210608",
-        view: 56,
-        star: 3.4
-        },
-        {
-        title: "#3 videos",
-        author: "Tesla",
+        createdAt: "2021.06.18",
+        view: 1,
+        star: 3.4,
+        id: 2
+    },
+    {
+        title: "classical music",
+        author: "pikachu",
         comments: 3,
-        createdAt: "20210608",
-        view: 56,
-        star: 2.2
-        }
-    ];
+        createdAt: "2021.06.08",
+        view: 1,
+        star: 2.2,
+        id: 3
+    }
+];
+
+export const trending = (req, res) => {
     return res.render('home', { pageTitle: "home", videos, user } );
 }
 
-export const watch = (req, res) => res.render('watch', {pageTitle: "watch"} );
+export const watch = (req, res) => {
+    const { id } = req.params;
+    const video = videos[id-1];
+    return res.render('watch', {pageTitle: `watching ${video.title}`, video} );
+}
 
 export const edit = (req, res) => res.render('edit', {pageTitle: "edit"} );
 

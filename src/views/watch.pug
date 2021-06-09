@@ -3,4 +3,8 @@ extends base.pug
 
 
 block header
-    h1 This is video page!
+    h1 #{video.title}
+
+block content
+    h3 #{video.view} #{video.view === 1 ? "view" : "views"}
+    a(href=`${video.id}/edit`) Edit current video
