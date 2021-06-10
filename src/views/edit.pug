@@ -3,4 +3,9 @@ extends base.pug
 
 
 block header
-    h1 This is edit page!
+    h1 Edit : #{video.title}
+
+block content
+    form(method='post')
+            input(type="text" name="title" value=video.title, placeholder="Video Title", required)
+            input(type="submit" value="Save")
