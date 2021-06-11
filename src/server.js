@@ -1,6 +1,5 @@
 import express from "express"
 import morgan from "morgan"
-import bodyParser from "body-parser"
 
 
 
@@ -21,8 +20,8 @@ app.set('views', process.cwd() + '/src/views');
 
 app.use(logger);
 
-app.use(bodyParser.json()) //req.body 요청
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json()) //req.body 요청
+app.use(express.urlencoded({ extended: true }))
 
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);

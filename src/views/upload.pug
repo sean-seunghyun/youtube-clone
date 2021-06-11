@@ -1,0 +1,9 @@
+extends base.pug
+
+block header
+    h1 Welcome to upload page!
+
+block content
+    form(method='POST')
+        input(type='text', name='title', placeholder='title', required)
+        input(type='submit', value='send')

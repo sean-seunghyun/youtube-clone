@@ -60,4 +60,23 @@ export const search = (req, res) => res.send("search videos");
 
 export const remove = (req, res) => res.send(`remove videos: ${req.params.id}`);
 
-export const upload = (req, res) => res.send("upload videos");
+export const getUpload = (req, res) => {
+    return res.render("upload", {pageTitle: 'Upload'});
+}
+
+export const postUpload = (req, res) => {
+    console.log(req.body);
+    const { title } = req.body;
+    const length = videos.length;
+    const video = {
+        title,
+        author: "Itzy",
+        comments: 0,
+        createdAt: "just now",
+        view: 0,
+        star: 0,
+        id: length+1
+    }
+    videos.push(video);
+    return res.redirect('/');
+}
