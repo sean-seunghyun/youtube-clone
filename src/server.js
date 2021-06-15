@@ -1,8 +1,7 @@
+import './db.js'
+import './models/video'
 import express from "express"
 import morgan from "morgan"
-
-
-
 
 
 import globalRouter from "./routers/globalRouter";

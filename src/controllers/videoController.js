@@ -1,39 +1,13 @@
+import Video from "../models/video";
+
 const user = {
     name: "sean",
     loggedIn: false
 }
 
-const videos = [
-    {
-        title: "Magical power",
-        author: "sean",
-        comments: 3,
-        createdAt: "2021.06.28",
-        view: 55,
-        star: 3,
-        id: 1
-    },
-    {
-        title: "Yerin Baek songs",
-        author: "John",
-        comments: 3,
-        createdAt: "2021.06.18",
-        view: 1,
-        star: 3.4,
-        id: 2
-    },
-    {
-        title: "classical music",
-        author: "pikachu",
-        comments: 3,
-        createdAt: "2021.06.08",
-        view: 1,
-        star: 2.2,
-        id: 3
-    }
-];
 
-export const trending = (req, res) => {
+export const trending = async (req, res) => {
+    const videos = await Video.find();
     return res.render('home', { pageTitle: "home", videos, user } );
 }
 
@@ -64,19 +38,18 @@ export const getUpload = (req, res) => {
     return res.render("upload", {pageTitle: 'Upload'});
 }
 
-export const postUpload = (req, res) => {
-    console.log(req.body);
-    const { title } = req.body;
-    const length = videos.length;
-    const video = {
-        title,
-        author: "Itzy",
-        comments: 0,
-        createdAt: "just now",
-        view: 0,
-        star: 0,
-        id: length+1
+export const postUpload = async (req, res) => {
+    try{
+        const { title, description, hashTags } = req.body;
+        const video = new Video({
+            title,
+            description,
+            hashTags: hashTags.split(',').map(hashtag => '#'+hashtag),
+        });
+        await video.save();
+        return res.redirect('/');
+    }catch (e) {
+       return res.render("upload", {pageTitle:'upload', error:e})
     }
-    videos.push(video);
-    return res.redirect('/');
+
 }
