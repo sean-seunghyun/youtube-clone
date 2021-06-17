@@ -5,28 +5,35 @@ const user = {
     loggedIn: false
 }
 
-
-export const trending = async (req, res) => {
+export const home = async (req, res) => {
     const videos = await Video.find();
     return res.render('home', { pageTitle: "home", videos, user } );
 }
 
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
     const { id } = req.params;
-    const video = videos[id-1];
+    const video = await Video.findById(id);
+    if(video === null){
+        return res.render('404', {pageTitle: '404 Error'});
+    }
     return res.render('watch', {pageTitle: `Watching ${video.title}`, video} );
 }
 
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
     const { id } = req.params;
-    const video = videos[id-1];
+    const video = await Video.findById(id);
     return res.render('edit', {pageTitle: `Editing ${video.title}`, video} );
 }
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
     const { id } = req.params;
-    const { title } = req.body;
-    videos[id-1].title = title;
+    console.log(req.body);
+    const video = await Video.findById(id);
+    const { title, description, hashTags } = req.body;
+    video.title = title;
+    video.description = description;
+    video.hashTags = hashTags.split(',').map(hashtag => hashtag.startsWith('#') ? hashtag : '#'+hashtag);
+    await video.save();
     return res.redirect(`/videos/${id}`);
 }
 
