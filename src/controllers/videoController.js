@@ -27,13 +27,21 @@ export const getEdit = async (req, res) => {
 
 export const postEdit = async (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
-    const video = await Video.findById(id);
     const { title, description, hashTags } = req.body;
-    video.title = title;
-    video.description = description;
-    video.hashTags = hashTags.split(',').map(hashtag => hashtag.startsWith('#') ? hashtag : '#'+hashtag);
-    await video.save();
+
+    const exists = await Video.exists({
+        _id: id
+    })
+    if(!exists){
+        return res.render('404', {pageTitle: '404 Error'});
+    }
+
+    await Video.findByIdAndUpdate(id, {
+            title,
+            description,
+            hashTags: Video.formatHashTags(hashTags)
+        })
+
     return res.redirect(`/videos/${id}`);
 }
 
@@ -48,11 +56,14 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
     try{
         const { title, description, hashTags } = req.body;
+
+
         const video = new Video({
             title,
             description,
-            hashTags: hashTags.split(',').map(hashtag => '#'+hashtag),
+            hashTags:Video.formatHashTags(hashTags)
         });
+        console.log(video);
         await video.save();
         return res.redirect('/');
     }catch (e) {

@@ -11,5 +11,13 @@ const videoSchema = new mongoose.Schema({
     },
 });
 
+// videoSchema.pre('save', function(){
+//     this.hashTags = this.hashTags[0].split(",").map(hashTag => hashTag.startsWith('#')? hashTag : `#${hashTag}`);
+// });
+
+videoSchema.static('formatHashTags',function(hashTags){
+    return hashTags.split(",").map(hashTag => hashTag.startsWith('#')? hashTag : `#${hashTag}`);
+})
+
 const Video = mongoose.model("Video", videoSchema);
 export default Video;
