@@ -6,7 +6,7 @@ const user = {
 }
 
 export const home = async (req, res) => {
-    const videos = await Video.find();
+    const videos = await Video.find().sort({createdAt: 'desc'});
     return res.render('home', { pageTitle: "home", videos, user } );
 }
 
@@ -45,9 +45,21 @@ export const postEdit = async (req, res) => {
     return res.redirect(`/videos/${id}`);
 }
 
-export const search = (req, res) => res.send("search videos");
+export const search = async (req, res) => {
+    const { keyword } = req.query;
 
-export const remove = (req, res) => res.send(`remove videos: ${req.params.id}`);
+    let videos = await Video.find({title: {$regex: keyword, $options: 'i' }});
+    console.log(videos);
+    return res.render('search', {pageTitle: 'Search', videos});
+}
+
+export const remove = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    await Video.findOneAndDelete({_id: id});
+
+    return res.redirect('/');
+}
 
 export const getUpload = (req, res) => {
     return res.render("upload", {pageTitle: 'Upload'});

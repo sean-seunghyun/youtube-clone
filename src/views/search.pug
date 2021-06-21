@@ -1,0 +1,15 @@
+extends base.pug
+include ./mixins/video
+
+block header
+    h1 Welcome to search page!
+
+block content
+    p #{error}
+    form(method='GET')
+        input(type='text', name='keyword', placeholder='keyword', maxlength=128, required)
+        input(type='submit', value='Search')
+    hr
+    p #{videos.length} result found
+    each video in videos
+        +video(video)
