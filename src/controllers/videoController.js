@@ -1,5 +1,6 @@
 import Video from "../models/video";
 
+
 const user = {
     name: "sean",
     loggedIn: false
@@ -14,7 +15,7 @@ export const watch = async (req, res) => {
     const { id } = req.params;
     const video = await Video.findById(id);
     if(video === null){
-        return res.render('404', {pageTitle: '404 Error'});
+        return res.status(404).render('404', {pageTitle: '404 Error'});
     }
     return res.render('watch', {pageTitle: `Watching ${video.title}`, video} );
 }
@@ -33,7 +34,7 @@ export const postEdit = async (req, res) => {
         _id: id
     })
     if(!exists){
-        return res.render('404', {pageTitle: '404 Error'});
+        return res.status(404).render('404', {pageTitle: '404 Error'});
     }
 
     await Video.findByIdAndUpdate(id, {
