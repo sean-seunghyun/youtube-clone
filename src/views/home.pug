@@ -2,12 +2,13 @@ extends base.pug
 include ./mixins/video
 
 block nav
-    if user.loggedIn
-        h4 welcome #{user.name}!
-    else
-        a(href='/login') click here to log In
 
-    a(href="/join") join
+    if(!loggedIn)
+        a(href='/login') click here to log In
+        a(href="/join") join
+    else
+        a(href='/logout') logout
+        a(href='/profile') #{user.name}'s profile
     a(href="/videos/search") Search video
     a(href="/videos/upload") Upload video
 

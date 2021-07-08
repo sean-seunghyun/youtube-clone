@@ -8,7 +8,8 @@ block header
 
 block content
 
-    p=joinError
+    if joinError
+            span=joinError
     form(method='post')
         input(type="text" name="emailAddress", placeholder="e-mail Address", required, maxlength=128)
         input(type="password" name="password1", placeholder="password", required)
