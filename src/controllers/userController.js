@@ -51,9 +51,6 @@ export const postLogin = async (req, res) => {
         req.session.loggedIn = 'true';
         req.session.user = user;
 
-        res.locals.loggedIn = req.session.loggedIn;
-        res.locals.user = user;
-
 
         return res.redirect('/');
     }catch (e) {
@@ -126,6 +123,23 @@ export const finishtGithubLogin = async (req, res) => {
        if(!email) res.redirect('/login');
        console.log(email);
 
+
+        const user = await User.findOne({emailAddress:email.email});
+        if(!user){
+
+            //sign up
+            const newUser = new User({
+                emailAddress: email.email,
+                password: '',
+                name: userData.login,
+                location: userData.location,
+                socialSignUp: true
+            })
+            await newUser.save();
+        }
+        req.session.loggedIn = 'true';
+        req.session.user = user;
+        return res.redirect('/');
 
     }else{
         return res.redirect('/login')
