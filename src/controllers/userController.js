@@ -4,17 +4,28 @@ import fetch from "node-fetch";
 
 
 export const getEdit = (req, res) => {
-    return res.render('userEdit', {pageTitle:'Edit'});
+    return res.render('userEdit', {pageTitle:'Edit Profile'});
 }
 
-export const postEdit = (req, res) => {
-
+export const postEdit = async (req, res) => {
+    console.log(req.session);
+    const {
+        session:{
+            user: {_id},
+        },
+        body: { name, emailAddress, location },
+    } = req;
+    await User.findByIdAndUpdate(_id, {
+        name,
+        emailAddress,
+        location
+    })
+    return res.render('userEdit', {pageTitle:'Edit Profile'});
 }
 
 export const remove = (req, res) => {
     res.send("remove user");
 }
-
 
 export const getJoin = (req, res) => {
 
@@ -46,20 +57,12 @@ export const postLogin = async (req, res) => {
     try{
         const { emailAddress, password } = req.body;
         const user = await User.findOne({emailAddress, socialSignUp:false});
-        console.log(user);
+        console.log(`user is... who? ${user}`);
         if(!user){
             return res.status(400).render('login', {logInError: 'login Failed, please check email again.', pageTitle:'log In'});
         }
         const passwordCheck = await bcrypt.compare(password, user.password);
         if(!passwordCheck) return res.status(400).render('login', {logInError: 'login Failed, please check password again.', pageTitle:'log In'});
-
-
-        // const exists = await User.exists({emailAddress});
-        // if(!exists) return res.status(400).render('login', {logInError: 'email does not exists!', pageTitle:'Log in'});
-
-        // const user = await User.findOne({emailAddress});
-        // const passwordCheck = await bcrypt.compare(password, user.password);
-        // if (!passwordCheck) return res.status(400).render('login', {logInError: 'password does not match!', pageTitle:'Log in'});
 
         req.session.loggedIn = 'true';
         req.session.user = user;
@@ -88,7 +91,7 @@ export const startGithubLogin = (req, res) => {
     }
     const params = new URLSearchParams(config).toString();
     const finalUrl = `${baseUrl}?${params}`;
-    console.log(finalUrl);
+    // console.log(finalUrl);
     res.redirect(finalUrl);
 }
 
@@ -122,7 +125,7 @@ export const finishGithubLogin = async (req, res) => {
                 'Authorization': `token ${access_token}`,
             },
         })).json();
-        console.log(userData);
+        // console.log(userData);
 
         const emailData = await (
             await fetch(`${apiUrl}/emails`,{
@@ -130,16 +133,15 @@ export const finishGithubLogin = async (req, res) => {
                 'Authorization': `token ${access_token}`,
             },
         })).json();
-        console.log(emailData);
+        // console.log(emailData);
 
        const email = emailData.find((email) => email.primary === true && email.verified === true);
        if(!email) res.redirect('/login');
-       console.log(email);
+       // console.log(email);
 
 
         const user = await User.findOne({emailAddress:email.email});
         if(!user){
-
             //sign up
             const user = new User({
                 emailAddress: email.email,
@@ -152,7 +154,9 @@ export const finishGithubLogin = async (req, res) => {
             await user.save();
         }
         req.session.loggedIn = 'true';
+        // console.log(`user is ...? ${user}`);
         req.session.user = user;
+        // console.log(`session is ...? ${JSON.stringify(req.session.user)}`);
         return res.redirect('/');
 
     }else{
