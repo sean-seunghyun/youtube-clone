@@ -1,0 +1,16 @@
+extends ../base
+
+
+block nav
+    a(href="/") Home
+
+block content
+    form(method='post' enctype="multipart/form-data")
+        label(for="avatar") avatar
+        input(type="file" name="avatar" id="avatar" accept="image/*")
+        input(type="text" name="emailAddress" value=user.emailAddress, placeholder='emailAddress', required)
+        input(type="text" name="name" value=user.name, placeholder='name', required)
+        input(type='text', name="location", value=user.location, placeholder='location')
+        input(type="submit" value="Save")
+    if(!user.socialSignUp)
+        a(href="change-password") change password &#10140;

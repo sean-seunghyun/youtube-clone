@@ -1,3 +1,5 @@
+import multer from "multer"
+
 export const localsMiddleware = (req, res, next) => {
     res.locals.title = 'Wetube';
     res.locals.loggedIn = req.session.loggedIn;
@@ -21,3 +23,5 @@ export const publicOnlyMiddleware = (req, res, next) => {
         return res.redirect('/');
     }
 }
+
+export const uploadFileMiddleware = multer({dest: 'uploads/'})
