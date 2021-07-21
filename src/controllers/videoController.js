@@ -69,9 +69,11 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
     try{
         const { title, description, hashTags } = req.body;
-
-
+        console.log(req.file);
+        const {path : url}=req.file;
+        console.log(url);
         const video = new Video({
+            url,
             title,
             description,
             hashTags:Video.formatHashTags(hashTags)

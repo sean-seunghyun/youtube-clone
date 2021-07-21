@@ -8,6 +8,7 @@ block header
     h1 #{video.title}
 
 block content
+    video(src=`/${video.url}` controls autoplay muted)
     h4=video.description
     h4=video.hashTags
     small #{video.meta.views} #{video.meta.views === 1 ? "view" : "views"}

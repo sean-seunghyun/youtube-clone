@@ -5,6 +5,7 @@ block nav
     a(href="/") Home
 
 block content
+    image(src=`/${user.avatarUrl}` width="100" height="100")
     form(method='post' enctype="multipart/form-data")
         label(for="avatar") avatar
         input(type="file" name="avatar" id="avatar" accept="image/*")

@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 
 
 export const getEdit = (req, res) => {
+    console.log(req.session.user);
     return res.render('users/userEdit', {pageTitle: 'Edit Profile'});
 }
 
@@ -98,7 +99,7 @@ export const startGithubLogin = (req, res) => {
     const baseUrl = 'https://github.com/login/oauth/authorize';
     const config = {
         client_id: 'c3df5bb74f57219db0b6',
-        scope: 'read:users users:email',
+        scope: 'read:user user:email',
         allow_signup: false
     }
     const params = new URLSearchParams(config).toString();
@@ -128,7 +129,7 @@ export const finishGithubLogin = async (req, res) => {
 
     if ("access_token" in tokenRequest) {
         const {access_token} = tokenRequest;
-
+        console.log(access_token);
         const apiUrl = 'https://api.github.com/user'
 
         const userData = await (
@@ -137,17 +138,17 @@ export const finishGithubLogin = async (req, res) => {
                     'Authorization': `token ${access_token}`,
                 },
             })).json();
-        // console.log(userData);
-
+        console.log(userData);
+        console.log(`${apiUrl}/emails`);
         const emailData = await (
             await fetch(`${apiUrl}/emails`, {
                 headers: {
                     'Authorization': `token ${access_token}`,
                 },
             })).json();
-        // console.log(emailData);
+        console.log(emailData);
 
-        const email = emailData.find((email) => email.primary === true && email.verified === true);
+        const email = emailData.find( (email) => email.primary === true && email.verified === true);
         if (!email) res.redirect('/login');
         // console.log(email);
 
@@ -168,7 +169,7 @@ export const finishGithubLogin = async (req, res) => {
         req.session.loggedIn = 'true';
         // console.log(`users is ...? ${users}`);
         req.session.user = user;
-        // console.log(`session is ...? ${JSON.stringify(req.session.users)}`);
+        console.log(`session is ...? ${JSON.stringify(req.session.user)}`);
         return res.redirect('/');
 
     } else {
