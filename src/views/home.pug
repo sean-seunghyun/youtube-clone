@@ -8,7 +8,8 @@ block nav
         a(href="/join") join
     else
         a(href='/users/logout') logout
-        a(href='/users/edit') #{user.name}'s profile
+        a(href=`/users/${user._id}`) #{user.name}의 프로필
+        a(href='/users/edit') Edit profile
     a(href="/videos/search") Search video
     a(href="/videos/upload") Upload video
 

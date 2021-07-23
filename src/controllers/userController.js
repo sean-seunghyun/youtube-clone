@@ -79,7 +79,7 @@ export const postLogin = async (req, res) => {
 
         req.session.loggedIn = 'true';
         req.session.user = user;
-
+        console.log(req.session.user);
         return res.redirect('/');
     } catch (e) {
         return res.status(404).render({pageTitle: '404Error'});
@@ -92,7 +92,7 @@ export const logout = (req, res) => {
     return res.redirect('/');
 }
 export const see = (req, res) => {
-    res.send("see users");
+    res.render("users/profile", {pageTitle: 'user Profile'});
 }
 
 export const startGithubLogin = (req, res) => {
