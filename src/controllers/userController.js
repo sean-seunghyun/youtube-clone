@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video"
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -91,8 +92,17 @@ export const logout = (req, res) => {
     req.session.destroy();
     return res.redirect('/');
 }
-export const see = (req, res) => {
-    res.render("users/profile", {pageTitle: 'user Profile'});
+
+export const getProfile = async (req, res) => {
+    console.log('here');
+    const {params:{id}} = req;
+    console.log(id);
+    let user = await User.findById(id).populate('videos');
+    console.log(user);
+    if(!user){
+        return res.status(404).render({pageTitle:'User not found'});
+    }
+    return res.render("users/profile", {pageTitle: 'user Profile', user});
 }
 
 export const startGithubLogin = (req, res) => {

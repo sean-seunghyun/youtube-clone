@@ -10,11 +10,13 @@ const videoSchema = new mongoose.Schema({
         views: {type: Number, default:0},
         rating: {type: Number, default:0},
     },
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
 
 videoSchema.static('formatHashTags',function(hashTags){
     return hashTags.split(",").map(hashTag => hashTag.startsWith('#')? hashTag : `#${hashTag}`);
+
 })
 
 const Video = mongoose.model("Video", videoSchema);

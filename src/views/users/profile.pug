@@ -1,1 +1,12 @@
 extends ../base
+include ../mixins/video
+
+block nav
+    a(href="/") Home
+
+block header
+    h1=user.name
+
+block content
+    each video in user.videos
+        +video(video)
