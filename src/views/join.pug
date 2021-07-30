@@ -1,13 +1,7 @@
 extends base
 
-block nav
-    a(href="/") Home
-
-block header
-    h1 Join page
 
 block content
-
     if joinError
             span=joinError
     form(method='post')
@@ -17,3 +11,7 @@ block content
         input(type='text', name='name', placeholder='name', required)
         input(type='text', name='location', placeholder='location')
         input(type="submit" value="Join")
+        include partials/social-login
+    div.auth-switch
+        span Already have an account?
+        a(href="/login") Log in now &rarr;

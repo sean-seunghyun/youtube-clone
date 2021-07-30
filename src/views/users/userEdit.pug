@@ -1,8 +1,7 @@
 extends ../base
 
 
-block nav
-    a(href="/") Home
+
 
 block content
     image(src=`/${user.avatarUrl}` width="100" height="100")
@@ -12,6 +11,7 @@ block content
         input(type="text" name="emailAddress" value=user.emailAddress, placeholder='emailAddress', required)
         input(type="text" name="name" value=user.name, placeholder='name', required)
         input(type='text', name="location", value=user.location, placeholder='location')
-        input(type="submit" value="Save")
+        input(type="submit" value="Update Profile")
     if(!user.socialSignUp)
-        a(href="change-password") change password &#10140;
+        div.edit-profile__password
+            a(href="change-password") change password &#10140;

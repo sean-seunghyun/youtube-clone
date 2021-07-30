@@ -1,10 +1,8 @@
 mixin video(video)
-    div
-        a(href=`/videos/${video.id}`) Title: #{video.title}
-        ul
-            li description: #{video.description}
-            li createdAt: #{video.createdAt}
-            li view: #{video.meta.views}
-            li star: #{video.meta.rating}/5
-            li hashTags: #{video.hashTags}
-        hr
+    a(href=`/videos/${video.id}`).video-mixin
+        div.video-mixin__thumb
+        div.video-mixin__data
+            span.video-mixin__title=video.title
+            div.video-mixin__meta
+                span #{video.owner.name} .
+                span #{video.meta.views} 회

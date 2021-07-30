@@ -1,16 +1,11 @@
 doctype html
 html(lang="ko")
     head
-        title Youtube | #{pageTitle}
-        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+        title #{pageTitle} | Youtube
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
         link(rel="stylesheet" href="static/css/styles.css")
     body
-        header
-            nav
-                block nav
-
-
-            block header
+        include partials/header
 
         main
             block content

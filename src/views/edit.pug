@@ -1,12 +1,5 @@
 extends base
 
-
-block nav
-    a(href="/") Home
-
-block header
-    h1 Edit : #{video.title}
-
 block content
     form(method='post')
             input(type="text" name="title" value=video.title, placeholder="Video Title", maxlength=128, required)

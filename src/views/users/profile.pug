@@ -1,12 +1,12 @@
-extends ../base
+extends ../base.pug
 include ../mixins/video
 
-block nav
-    a(href="/") Home
-
-block header
-    h1=user.name
-
 block content
-    each video in user.videos
-        +video(video)
+    div.profile__data
+        img(src="/" + user.avatarUrl).avatar
+        h3=user.name
+    div.video-grid
+        each video in user.videos
+            +video(video)
+        else
+            span.empty__message No videos found

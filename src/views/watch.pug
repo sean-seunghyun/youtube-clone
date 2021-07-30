@@ -1,11 +1,4 @@
-extends base
-
-
-block nav
-    a(href="/") Home
-
-block header
-    h1 #{video.title}
+extends base.pug
 
 block content
     video(src=`/${video.url}` controls autoplay muted)

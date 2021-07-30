@@ -1,22 +1,11 @@
 extends base.pug
 include ./mixins/video
 
-block nav
-
-    if(!loggedIn)
-        a(href='/login') click here to log In
-        a(href="/join") join
-    else
-        a(href='/users/logout') logout
-        a(href=`/users/${user._id}`) #{user.name}의 프로필
-        a(href='/users/edit') Edit profile
-    a(href="/videos/search") Search video
-    a(href="/videos/upload") Upload video
-
-block header
-    h1 There are tons of videos to watch!
 
 block content
-    each video in videos
-        +video(video)
+    div.video-grid
+        each video in videos
+            +video(video)
+        else
+            span.empty__message No videos found
 
