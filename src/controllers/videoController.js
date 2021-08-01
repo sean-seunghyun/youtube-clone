@@ -67,13 +67,15 @@ export const search = async (req, res) => {
 
 export const remove = async (req, res) => {
     const { id } = req.params;
-    const { user:{ _id } }= req.sessions;
+    console.log(req.session.user);
+    //console.log(req.sessions.user);
+    const { user:{ _id } }= req.session;
     const video = await Video.findOneAndDelete({_id: id});
 
-    if(String(video.owner) !== String(_id)){
-        return res.status('403').redirect('/');
-    }
-    return res.redirect('/');
+       if(String(video.owner) !== String(_id)){
+           return res.status('403').redirect('/');
+       }
+       return res.redirect('/');
 }
 
 export const getUpload = (req, res) => {
