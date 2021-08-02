@@ -1,7 +1,16 @@
 extends base.pug
 
 block content
-    video(src=`/${video.url}` controls autoplay muted)
+    //video(src=`/${video.url}` controls)
+    video(src='/' + video.url, controls)
+    div
+        button#play Play
+        button#mute Mute
+        div
+            span#currentTime 00:00
+            span  /
+            span#totalTime 00:00
+        input(type="range", step="0.1", min="0", max="1")#volume
     //br
     //small uploaded by
     //    a(href=`/users/${video.owner._id}`) #{video.owner.name}
