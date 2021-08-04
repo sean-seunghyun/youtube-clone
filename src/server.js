@@ -7,6 +7,7 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 import { localsMiddleware } from "./middlewares";
+import apiRouter from "./routers/apiRouter";
 
 
 
@@ -38,6 +39,7 @@ app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
+app.use("/api", apiRouter);
 app.use("/uploads", express.static('uploads')); // static : make directory to public
 app.use("/static", express.static('assets'));
 

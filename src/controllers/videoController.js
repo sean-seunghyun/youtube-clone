@@ -4,7 +4,7 @@ import User from "../models/User"
 
 
 export const home = async (req, res) => {
-    const videos = await Video.find().sort({createdAt: 'desc'});
+    const videos = await Video.find().sort({createdAt: 'desc'}).populate('owner');
     return res.render('home', { pageTitle: "home", videos } );
 }
 
@@ -105,4 +105,16 @@ export const postUpload = async (req, res) => {
        return res.render("upload", {pageTitle:'upload', error:e})
     }
 
+}
+
+export const registerView = async (req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    if(!video){
+        return res.sendStatus('404');
+    }
+    video.meta.views = video.meta.views + 1;
+    await video.save();
+
+    return res.sendStatus('200');
 }
