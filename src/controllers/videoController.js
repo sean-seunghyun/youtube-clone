@@ -13,6 +13,7 @@ export const watch = async (req, res) => {
     const video = await Video.findById(id).populate('owner');
     console.log(video);
     if(video === null){
+        req.flash('error', 'video does not exist');
         return res.status(404).render('404', {pageTitle: '404 Error'});
     }
     return res.render('watch', {pageTitle: `Watching ${video.title}`, video} );
@@ -26,6 +27,7 @@ export const getEdit = async (req, res) => {
         return res.status('404').render('404', {pageTitle: 'video not found'});
     }
     if(String(_id) !== String(video.owner)){
+        req.flash('video not found')
         return res.status('403').redirect('/');
     }
 
@@ -44,6 +46,7 @@ export const postEdit = async (req, res) => {
     }
 
     if(String(_id) !== String(video.owner)){
+        req.flash('error', 'you are not the owner of the video.')
         return res.status('403').redirect('/');
     }
 
@@ -54,6 +57,7 @@ export const postEdit = async (req, res) => {
         }, {new:true});
     await console.log(updatedVideo);
 
+    req.flash("success", "Changes saved.");
     return res.redirect(`/videos/${id}`);
 }
 
@@ -73,6 +77,7 @@ export const remove = async (req, res) => {
     const video = await Video.findOneAndDelete({_id: id});
 
        if(String(video.owner) !== String(_id)){
+           req.flash('error', 'you are not the owner of the video');
            return res.status('403').redirect('/');
        }
        return res.redirect('/');

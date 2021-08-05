@@ -2,10 +2,13 @@ extends base
 
 block content
     p #{error}
-
+    video#videoRecording
+    button#recorderBtn Recording
     form(method='POST' enctype="multipart/form-data")
         input(type="file" name='video' id='video' accept="video/*" required)
         input(type='text', name='title', placeholder='title', maxlength=128, required)
         input(type='text', name='description', placeholder='description', minlength=4, required)
         input(type='text', name='hashTags', placeholder='put down commas to use multiple hashtags ')
         input(type='submit', value='send')
+block script
+    script(src='/static/js/recorder.js')
