@@ -19,6 +19,12 @@ block content
                     i.fas.fa-volume-up
                 span#fullScreen
                     i.fas.fa-expand
+
+    div.video__data
+        p.video__title=video.title
+        small.video__owner Uploaded by
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+
     //br
     //small uploaded by
     //    a(href=`/users/${video.owner._id}`) #{video.owner.name}
@@ -30,9 +36,9 @@ block content
     //br
     //small #{video.meta.rating}/5
     //hr
-    //if(String(video.owner._id) === String(user._id))
-    //    a(href=`${video.id}/edit`) Edit current video
-    //    br
-    //    a(href=`${video.id}/delete`) Delete current video
+    if(String(video.owner._id) === String(user._id))
+        a(href=`${video.id}/edit`) Edit current video
+        br
+        a(href=`${video.id}/delete`) Delete current video
 block script
     script(src='/static/js/videoPlayer.js')
