@@ -25,20 +25,13 @@ block content
         small.video__owner Uploaded by
             a(href=`/users/${video.owner._id}`)=video.owner.name
 
-    //br
-    //small uploaded by
-    //    a(href=`/users/${video.owner._id}`) #{video.owner.name}
-    //h4=video.description
-    //h4=video.hashTags
-    //small #{video.meta.views} #{video.meta.views === 1 ? "view" : "views"}
-    //br
-    //small #{video.createdAt}
-    //br
-    //small #{video.meta.rating}/5
-    //hr
+
     if(String(video.owner._id) === String(user._id))
         a(href=`${video.id}/edit`) Edit current video
         br
         a(href=`${video.id}/delete`) Delete current video
+
+    div.commentSection
+
 block script
     script(src='/static/js/videoPlayer.js')
